@@ -7,6 +7,13 @@ const bodyParser = require("body-parser");
 
 
 const userRoutes = require("./routes/userRoutes");
+const supplierOrderDetailRoutes = require("./routes/supplierOrderDetailRoutes");
+const shippingOrderRoutes = require("./routes/shippingOrderRoutes");
+const portAuthorityOrderRoutes = require("./routes/portAuthorityOrderRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const oilTankerOrderRoutes = require("./routes/oilTankerOrderRoutes");
+const customOrderRoutes = require("./routes/customOrderRoutes");
+
 const productRoutes = require("./routes/productRoutes");
 
 
@@ -19,6 +26,12 @@ app.use(express.json());
 app.use(cors());
 
 
+app.use("/api/customOrder", customOrderRoutes);
+app.use("/api/oilTankerOrder", oilTankerOrderRoutes);
+app.use("/api/order", orderRoutes);
+app.use("/api/portAuthorityOrder", portAuthorityOrderRoutes);
+app.use("/api/shippingOrder", shippingOrderRoutes);
+app.use("/api/supplierOrderDetail", supplierOrderDetailRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
 

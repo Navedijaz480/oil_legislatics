@@ -1,0 +1,17 @@
+const express = require('express');
+const router = express.Router();
+const portAuthorityOrderController = require('../controllers/portAuthorityOrderController');
+
+// Create a new port authority order
+router.post('/portAuthorityOrders', portAuthorityOrderController.createPortAuthorityOrder);
+
+// Update a port authority order by ID
+router.put('/portAuthorityOrders/:id', portAuthorityOrderController.updatePortAuthorityOrder);
+
+// Get a port authority order by ID
+router.get('/portAuthorityOrders/:id', portAuthorityOrderController.getPortAuthorityOrderById);
+
+// Get all port authority orders
+router.get('/portAuthorityOrders', portAuthorityOrderController.getAllPortAuthorityOrders);
+
+module.exports = router;
