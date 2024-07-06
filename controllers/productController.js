@@ -80,3 +80,20 @@ exports.getAllProducts = async (req, res) => {
         });
     }
 };
+
+exports.getProductsInCardByAddress = async (req, res) => {
+    try {
+        const { address } = req.params;
+        const products = await Product.find({ addToCard: true, address });
+        res.status(200).json({
+            message: 'Products with addToCard true fetched successfully for the address',
+            data: products
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: true,
+            error_msg: 'Error fetching products',
+            details: error.message
+        });
+    }
+};

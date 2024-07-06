@@ -14,4 +14,8 @@ router.get('/products/:id', productController.getProductById);
 // Get all products
 router.get('/products', productController.getAllProducts);
 
+// Get products with addToCard true for a specific address
+router.get('/products/addToCard/:address', productController.getProductsInCardByAddress);
+
+
 module.exports = router;
