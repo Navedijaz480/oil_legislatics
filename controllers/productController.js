@@ -21,7 +21,8 @@ exports.createProduct = async (req, res) => {
 // Update a product by ID
 exports.updateProduct = async (req, res) => {
     try {
-        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const {id}=req.params;
+        const updatedProduct = await Product.findOneAndUpdate({_id : id} ,req.body, { new: true, runValidators: true });
         if (!updatedProduct) {
             return res.status(404).json({
                 error: true,

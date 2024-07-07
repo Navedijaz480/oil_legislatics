@@ -83,7 +83,7 @@ exports.userLogin = async (req, res) => {
 };
 exports.updateUserById = async (req, res) => {
     const decodedToken = req.user;
-    const id=decodedToken.id ;
+    const {id}=decodedToken.id ;
    
     try {
         const user = await User.findById(id).lean().select("-__v -password");
@@ -94,7 +94,7 @@ exports.updateUserById = async (req, res) => {
             });
         }
 
-        const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+        const updatedUser = await User.findOneAndUpdate({ _id: id }, req.body, {
             new: true,
         }).select("-__v -password");
 

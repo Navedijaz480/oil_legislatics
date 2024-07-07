@@ -21,7 +21,8 @@ exports.createOrder = async (req, res) => {
 // Update an order by ID
 exports.updateOrder = async (req, res) => {
     try {
-        const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const {id}=req.params;
+        const updatedOrder = await Order.findOneAndUpdate({_id : id} ,  req.body, { new: true, runValidators: true });
         if (!updatedOrder) {
             return res.status(404).json({
                 error: true,

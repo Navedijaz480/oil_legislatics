@@ -21,7 +21,8 @@ exports.createOilTankerOrder = async (req, res) => {
 // Update an oil tanker order by ID
 exports.updateOilTankerOrder = async (req, res) => {
     try {
-        const updatedOilTankerOrder = await OilTankerOrder.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const {id}=req.params;
+        const updatedOilTankerOrder = await OilTankerOrder.findOneAndUpdate({_id : id} ,  req.body, { new: true, runValidators: true });
         if (!updatedOilTankerOrder) {
             return res.status(404).json({
                 error: true,

@@ -21,7 +21,8 @@ exports.createSupplierOrderDetail = async (req, res) => {
 // Update a supplier order detail by ID
 exports.updateSupplierOrderDetail = async (req, res) => {
     try {
-        const updatedSupplierOrderDetail = await SupplierOrderDetail.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const {id}=req.params;
+        const updatedSupplierOrderDetail = await SupplierOrderDetail.findOneAndUpdate({_id : id}, req.body, { new: true, runValidators: true });
         if (!updatedSupplierOrderDetail) {
             return res.status(404).json({
                 error: true,

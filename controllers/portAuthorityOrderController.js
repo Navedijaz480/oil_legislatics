@@ -21,7 +21,8 @@ exports.createPortAuthorityOrder = async (req, res) => {
 // Update a port authority order by ID
 exports.updatePortAuthorityOrder = async (req, res) => {
     try {
-        const updatedPortAuthorityOrder = await PortAuthorityOrder.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const {id}=req.params;
+        const updatedPortAuthorityOrder = await PortAuthorityOrder.findOneAndUpdate({_id : id} , req.body, { new: true, runValidators: true });
         if (!updatedPortAuthorityOrder) {
             return res.status(404).json({
                 error: true,
