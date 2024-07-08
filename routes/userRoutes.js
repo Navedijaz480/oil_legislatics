@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
 router.post("/sign_up", userController.userSignUp);
+router.get("/verifyLink/:id", userController.verifyLink);
 router.post("/login", userController.userLogin);
 router.post("/all", userController.getAllUser);
 router.route("/:id")

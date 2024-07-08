@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcryptjs = require("bcryptjs");
+const { sendVerificationLinkToEmail } = require("../middleware/emailSender");
 const jwt = require('jsonwebtoken');
 const {
     error500,
@@ -28,6 +29,7 @@ exports.userSignUp = async (req, res) => {
                     password: hashedPassword,
                 });
                 const response = await user.save();
+                await sendVerificationLinkToEmail(email, response._id);
                 success(res, "200", "Success", response);
             }
             
@@ -50,6 +52,31 @@ exports.userSignUp = async (req, res) => {
         error500(res, err);
     }
 };
+
+exports.verifyLink = async (req, res) => {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      const centeredMessage = `<div style="display: flex; align-items: center; justify-content: center; height: 100vh;"><h1>User Not Found</h1></div>`;
+  
+      return res.status(404).send(centeredMessage);
+    }
+    if (user.isVerified == true) {
+      const centeredMessage = `<div style="display: flex; align-items: center; justify-content: center; height: 100vh;"><h1>Link Expired</h1></div>`;
+  
+      return res.status(200).send(centeredMessage);
+    }
+    user.isVerified = true;
+  
+    await user.save();
+    // res.json({
+    //   error: false,
+    //   success_msg: 'Verify  successfully',
+    // });
+    const centeredMessage = `<div style="display: flex; align-items: center; justify-content: center; height: 100vh;"><h1>Email verified successfully</h1></div>`;
+  
+    return res.status(200).send(centeredMessage);
+  };
 exports.userLogin = async (req, res) => {
     const { email, password,role } = req.body;
     try {
@@ -75,6 +102,12 @@ exports.userLogin = async (req, res) => {
                 error_msg: "Unauthorized role",
             });
         }
+        if (user.isVerified !== true) {
+            return res.json({
+              error: true,
+              error_msg: "Email not verified",
+            });
+          }
         const response = await User.findById(user._id).select("-__v -password");
         return success(res, "200", "Success", response);
     } catch (err) {
